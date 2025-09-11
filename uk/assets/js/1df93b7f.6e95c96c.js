@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[4583],{6866:(s,c,e)=>{e.r(c),e.d(c,{default:()=>n});var u=e(6347),d=e(4848);function n(){return(0,d.jsx)(u.rd,{to:"/docs/mission"})}}}]);
