@@ -93,4 +93,4 @@ sidebar_position: 9
 ## Референс
 
 Офіційна схема gateway:  
-див. [protocol.json](https://github.com/dnip-labs/docs/blob/master/json-schema/protocol.json#L50)
+див. [protocol.json](https://github.com/dnip-labs/dnip/blob/master/json-schema/protocol.json#L50)

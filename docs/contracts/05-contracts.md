@@ -116,7 +116,7 @@ sidebar_position: 5
 ## Референс
 
 Офіційна схема контракту:  
-[contract.json](https://github.com/dnip-labs/docs/tree/master/json-schema/contract.json)
+[contract.json](https://github.com/dnip-labs/dnip/tree/master/json-schema/contract.json)
 
 ---
 

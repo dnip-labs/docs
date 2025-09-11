@@ -24,7 +24,7 @@ sidebar_position: 2
 
 ### 2. **contracts/*.json**
 - Кожна дія (action) має свій контракт.  
-- Формат: **[JSON Schema draft-07](https://json-schema.org/draft-07/draft-handrews-json-schema-01)**.
+- Формат: [**JSON Schema draft-07**](https://json-schema.org/draft-07/draft-handrews-json-schema-01).
 - Контракти описують `headers`, `input`, `output`.  
 - Усі контракти зберігаються у **плоскій структурі** `contracts/*.json` без піддиректорій.  
 - Це формальна обіцянка вузла на правильний формат даних.
@@ -92,7 +92,7 @@ export default function ProtocolImplementation() {
 1. **protocol.json** описує, які дії доступні.  
 2. **contracts/*.json** гарантують формат даних для цих дій.  
 3. **config.js** описує параметри доступу до ресурсів.  
-4. **adapters.js** створює клієнти зовнішних ресурвів та передає їх у `context.adapters`.  
+4. **adapters.js** створює клієнти зовнішних ресурсів та передає їх у `context.adapters`.  
 5. **protocol.js** реалізує логіку дій, використовуючи контракти і адаптери.  
 
 У результаті кожен вузол DNIP прозорий: його можливості можна зрозуміти, просто подивившись у `protocol.json` і відповідні контракти, а реалізацію легко протестувати через чітко визначені адаптери.

@@ -98,4 +98,4 @@ export default function ProtocolImplementation() {
 ## Референс
 
 Офіційна схема cron:  
-див. [protocol.json](https://github.com/dnip-labs/docs/blob/master/json-schema/protocol.json#L22)
+див. [protocol.json](https://github.com/dnip-labs/dnip/blob/master/json-schema/protocol.json#L22)
