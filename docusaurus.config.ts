@@ -18,7 +18,7 @@ const config: Config = {
   url: 'https://dnip-labs.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/docs/',
+  baseUrl: '/',
   trailingSlash: false,
   projectName: 'docs',
   organizationName: 'dnip-labs',
@@ -54,6 +54,8 @@ const config: Config = {
             },
           },
           sidebarPath: './sidebars.ts',
+          path: 'docs',      // ← твоя директория
+          routeBasePath: '/',   // ← без /docs в урле
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           // editUrl:
