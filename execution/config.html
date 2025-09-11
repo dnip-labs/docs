@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.8.1">
 <title data-rh="true">Конфігурація | DNIP</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://dnip-labs.github.io/docs/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://dnip-labs.github.io/docs/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://dnip-labs.github.io/docs/execution/config"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" property="og:locale:alternate" content="uk"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Конфігурація | DNIP"><meta data-rh="true" name="description" content="Що таке config"><meta data-rh="true" property="og:description" content="Що таке config"><link data-rh="true" rel="icon" href="/docs/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://dnip-labs.github.io/docs/execution/config"><link data-rh="true" rel="alternate" href="https://dnip-labs.github.io/docs/execution/config" hreflang="en"><link data-rh="true" rel="alternate" href="https://dnip-labs.github.io/docs/uk/execution/config" hreflang="uk"><link data-rh="true" rel="alternate" href="https://dnip-labs.github.io/docs/execution/config" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"⚙️ Виконання","item":"https://dnip-labs.github.io/docs/category/️-виконання"},{"@type":"ListItem","position":2,"name":"Конфігурація","item":"https://dnip-labs.github.io/docs/execution/config"}]}</script><link rel="stylesheet" href="/docs/assets/css/styles.8ff53da7.css">
-<script src="/docs/assets/js/runtime~main.070a9081.js" defer="defer"></script>
+<script src="/docs/assets/js/runtime~main.1cf46c60.js" defer="defer"></script>
 <script src="/docs/assets/js/main.d5f7c9a5.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -16,8 +16,8 @@
 <p><strong>config.(js|ts|…​)</strong> — це файл конфігурації вузла.<br>
 <!-- -->Він описує <strong>середовище виконання вузла</strong> та <strong>налаштування для реалізації протоколу</strong>, включно з:</p>
 <ul>
-<li><strong>Налаштуваннями середовища</strong>: <code>gateway</code> (host/IP/port, TLS, CORS, rate-limit), <code>services.transports (налаштування для транспортів, які реалізує платформа)</code>, логування, метрики, безпека тощо.</li>
-<li><strong>Даними для логіки</strong>: підключення до баз даних, кешів, сторонніх API, feature flags та інші опції для дій вузла.</li>
+<li><strong>Налаштуваннями середовища</strong>: <code>gateway</code> (host/IP/port, TLS, CORS, rate-limit), <code>services.transports (налаштування для транспортів)</code>, логування, метрики, безпека, підключення до баз даних, кешів, сторонніх API, тощо.</li>
+<li><strong>Даними для логіки</strong>: feature flags та інші опції для дій вузла.</li>
 </ul>
 <blockquote>
 <p>Формат config-файлу <strong>не стандартизований</strong> протоколом DNIP.<br>
@@ -27,12 +27,12 @@
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="рекомендована-структура">Рекомендована структура<a href="#рекомендована-структура" class="hash-link" aria-label="Direct link to Рекомендована структура" title="Direct link to Рекомендована структура">​</a></h2>
 <ul>
 <li><strong>gateway.http</strong> — HTTP налаштування (host/port, TLS, CORS, rate-limit).</li>
-<li><strong>gateway.events</strong> — опис джерел подій. Тут можна вказати транспорт і параметри підключення. Це рекомендація, а не вимога протоколу.</li>
+<li><strong>gateway.events</strong> — опис джерел подій. Тут можна вказати транспорт і параметри підключення.</li>
 <li><strong>services</strong> — спільні параметри для сервісів, зокрема <strong>транспорти</strong> за замовчуванням.</li>
 <li><strong>security</strong> — секрети/ключі, політики доступу.</li>
 <li><strong>logger</strong> — рівні логування, формати.</li>
 <li><strong>metrics</strong> — експозиція Prometheus/статистика.</li>
-<li><strong>domain</strong> — будь-які налаштування для дій вузла.</li>
+<li><strong>domain</strong> — будь-які налаштування для бізнес логикі.</li>
 <li><strong>adapters</strong> — підключення до зовнішніх ресурсів (PostgreSQL, Redis, S3, Kafka тощо).</li>
 </ul>
 <hr>
@@ -41,7 +41,7 @@
 <hr>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="як-це-використовує-реалізація">Як це використовує реалізація<a href="#як-це-використовує-реалізація" class="hash-link" aria-label="Direct link to Як це використовує реалізація" title="Direct link to Як це використовує реалізація">​</a></h2>
 <ul>
-<li>Реалізація DNIP може читати <strong>параметри середовища</strong> (<code>gateway.http</code>, <code>gateway.events.sources</code>, <code>services.transports (налаштування для транспортів, які реалізує платформа)</code>, <code>logger</code>, <code>metrics</code>, <code>security</code>).</li>
+<li>Реалізація DNIP може читати <strong>параметри середовища</strong> (<code>gateway.http</code>, <code>gateway.events.sources</code>, <code>services.transports (налаштування для транспортів)</code>, <code>logger</code>, <code>metrics</code>, <code>security</code>).</li>
 <li>Виконання подій з <code>gateway.events</code> залежить від реалізації:<!-- -->
 <ul>
 <li>у Kafka це буде consumer group,</li>
