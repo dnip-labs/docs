@@ -18,7 +18,7 @@ const config: Config = {
   url: 'https://dnip-labs.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: '/docs/',
   trailingSlash: false,
   projectName: 'docs',
   organizationName: 'dnip-labs',
@@ -54,8 +54,8 @@ const config: Config = {
             },
           },
           sidebarPath: './sidebars.ts',
-          path: 'docs',      // ← твоя директория
-          routeBasePath: '/',   // ← без /docs в урле
+          path: 'docs',
+          routeBasePath: '/',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           // editUrl:
@@ -145,6 +145,9 @@ const config: Config = {
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
+    },
+    colorMode: {
+      defaultMode: 'dark',
     },
   } satisfies Preset.ThemeConfig,
 };
