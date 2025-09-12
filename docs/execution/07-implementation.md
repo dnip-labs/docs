@@ -64,16 +64,16 @@ export function createAdapters(config) {
 }
 ```
 
-У реалізації ми використовуємо вже готові адаптери через `context.adapters`:  
+У реалізації ми використовуємо вже готові адаптери через `context.ports`:  
 
 ```js
 export default function ProtocolImplementation() {
   return {
     domain: {
       user: {
-        getProfile: async (params, context) => {
-          const db = context.adapters.postgres;
-          const res = await db.query("SELECT * FROM users WHERE id = $1", [params.userId]);
+        getProfile: async (context) => {
+          const db = context.ports.postgres;
+          const res = await db.query("SELECT * FROM users WHERE id = $1", [context.params.userId]);
           return res.rows[0];
         }
       }
@@ -96,7 +96,7 @@ export default function ProtocolImplementation() {
 
 3. **adapters**  
    - Ініціалізуються у файлі `adapters.js` на основі `config.adapters`.  
-   - Потрапляють у `context.adapters` і доступні для дій вузла.  
+   - Потрапляють у `context.ports` і доступні для дій вузла.  
 
 ---
 
@@ -104,7 +104,7 @@ export default function ProtocolImplementation() {
 
 Під час виклику будь-якої дії DNIP передає у функцію **context**:  
 - `context.domain` → значення з `config.domain`.  
-- `context.adapters` → готові клієнти з `adapters.js`.  
+- `context.ports` → готові клієнти з `adapters.js`.  
 - `context.meta.headers` → заголовки запиту згідно контракту.  
 
 Функція повинна повертати результат, який відповідає **contract.output**.  

@@ -68,9 +68,9 @@ export default function Protocol() {
   return {
     domain: {
       user: {
-        getProfile: async (params, context) => {
-          const { userRepo } = context.adapters;
-          return await userRepo.findById(params.userId);
+        getProfile: async (context) => {
+          const { userRepo } = context.ports;
+          return await userRepo.findById(context.params.userId);
         }
       }
     }

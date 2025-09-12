@@ -75,8 +75,8 @@ export default function ProtocolImplementation() {
   return {
     domain: {
       system: {
-        ping: async (params, context) => {
-          return { echo: params.message };
+        ping: async (context) => {
+          return { echo: context.params.message };
         }
       }
     }
@@ -114,7 +114,7 @@ export default function ProtocolImplementation() {
     domain: {
       jobs: {
         cleanup: async (context) => {
-          const db = context.adapters.postgres;
+          const db = context.ports.postgres;
           if (db && typeof db.cleanupInactiveUsers === "function") {
             await db.cleanupInactiveUsers();
           }
@@ -167,12 +167,12 @@ export default function ProtocolImplementation() {
   return {
     domain: {
       processors: {
-        sendEmail: async (params, context) => {
-          const { to, body } = params;
+        sendEmail: async (context) => {
+          const { to, body } = context.params;
           console.log("Sending email to", to, "with body", body);
           return { status: "sent" };
         },
-        onEmailError: (params, context) => {
+        onEmailError: (context) => {
           console.error("Email job failed:", context.error);
         }
       }
@@ -377,24 +377,24 @@ export default function ProtocolImplementation() {
   return {
     domain: {
       system: {
-        ping: async (params, context) => {
-          return { echo: params.message };
+        ping: async (context) => {
+          return { echo: context.params.message };
         }
       },
       users: {
-        createUser: async (params, context) => {
+        createUser: async (context) => {
           // create user ...
-          return { id: "u1", name: params.name, email: params.email };
+          return { id: "u1", name: context.params.name, email: context.params.email };
         },
-        onUserCreated: async (params, context) => {
-          console.log("Handled user.created event:", params.id);
+        onUserCreated: async (context) => {
+          console.log("Handled user.created event:", context.params.id);
           return { ok: true };
         }
       },
       orders: {
-        createOrder: async (params, context) => {
+        createOrder: async (context) => {
           // create order ...
-          return { orderId: params.id, status: "ok" };
+          return { orderId: context.params.id, status: "ok" };
         }
       },
       jobs: {
@@ -404,8 +404,8 @@ export default function ProtocolImplementation() {
         }
       },
       processors: {
-        sendEmail: async (params, context) => {
-          console.log("Email sent to", params.to);
+        sendEmail: async (context) => {
+          console.log("Email sent to", context.params.to);
           return { status: "sent" };
         }
       }

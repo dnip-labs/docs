@@ -79,18 +79,18 @@ export default function ProtocolImplementation() {
   return {
     domain: {
       processors: {
-        emailSend: async (params, context) => {
-          await context.adapters.mailer.send(params.to, params.body);
+        emailSend: async (context) => {
+          await context.ports.mailer.send(context.params.to, context.params.body);
           return { delivered: true };
         },
-        onErrorHandler: async (params, context) => {
-          console.error("Job failed:", params.error);
+        onErrorHandler: async (context) => {
+          console.error("Job failed:", context.params.error);
         },
-        onCompleteHandler: async (params, context) => {
-          console.log("Job finished:", params.jobId, params.output);
+        onCompleteHandler: async (context) => {
+          console.log("Job finished:", context.params.jobId, context.params.output);
         },
-        reportGenerate: async (params, context) => {
-          const report = await context.adapters.reports.build(params.type);
+        reportGenerate: async (context) => {
+          const report = await context.ports.reports.build(context.params.type);
           return { reportId: report.id };
         }
       }

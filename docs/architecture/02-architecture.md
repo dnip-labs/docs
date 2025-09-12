@@ -44,7 +44,7 @@ sidebar_position: 2
 ### 4. **adapters.js**
 - Реалізація адаптерів на основі `config.js`.  
 - Повертає готові клієнти для роботи з інфраструктурними сервісами (Postgres, Redis, Kafka, AMQP, Mailer тощо).  
-- Робить їх доступними через `context.adapters` у `protocol.js`.  
+- Робить їх доступними через `context.ports` у `protocol.js`.  
 - Забезпечує відокремлення бізнес-логіки від деталей підключення.  
 
 ---
@@ -60,10 +60,10 @@ export default function ProtocolImplementation() {
   return {
     domain: {
       system: {
-        ping: async (params, context) => {
-          const db = context.adapters.postgres;
+        ping: async (context) => {
+          const db = context.ports.postgres;
           const res = await db.query("SELECT 1 as ok");
-          return { echo: params.message, db: res.rows[0].ok };
+          return { echo: context.params.message, db: res.rows[0].ok };
         }
       }
     }
@@ -92,7 +92,7 @@ export default function ProtocolImplementation() {
 1. **protocol.json** описує, які дії доступні.  
 2. **contracts/*.json** гарантують формат даних для цих дій.  
 3. **config.js** описує параметри доступу до ресурсів.  
-4. **adapters.js** створює клієнти зовнішних ресурсів та передає їх у `context.adapters`.  
+4. **adapters.js** створює клієнти зовнішних ресурсів та передає їх у `context.ports`.  
 5. **protocol.js** реалізує логіку дій, використовуючи контракти і адаптери.  
 
 У результаті кожен вузол DNIP прозорий: його можливості можна зрозуміти, просто подивившись у `protocol.json` і відповідні контракти, а реалізацію легко протестувати через чітко визначені адаптери.

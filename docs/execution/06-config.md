@@ -123,7 +123,7 @@ export default {
   - у NATS — subject,  
   - у Socket.IO — namespace/room.  
 - Якщо `sources` не задані, реалізація може мати дефолтні налаштування або не активувати events взагалі.  
-- Під час виконання дій у функціях передається `context.domain` (і за потреби `context.adapters`).  
+- Під час виконання дій у функціях передається `context.domain` (і за потреби `context.ports`).  
 
 ---
 

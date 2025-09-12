@@ -58,7 +58,7 @@ export default function ProtocolImplementation() {
       jobs: {
         cleanup: async (context) => {
           // приклад: використовуємо готові адаптери
-          const db = context.adapters.postgres;
+          const db = context.ports.postgres;
           if (db && typeof db.cleanupInactiveUsers === "function") {
             await db.cleanupInactiveUsers();
           }

@@ -13,7 +13,7 @@ sidebar_position: 5
 - **input** — вхідні дані.  
 - **output** — вихідні дані.  
 
-Контракт описується у форматі **JSON Schema draft-07**.  
+Контракт описується у форматі [**JSON Schema draft-07**](https://json-schema.org/draft-07/draft-handrews-json-schema-01).  
 
 ---
 
@@ -104,7 +104,7 @@ sidebar_position: 5
 
 ## Валідація
 
-Контракти можна валідовувати будь-яким інструментом для **JSON Schema draft-07**:  
+Контракти можна валідовувати будь-яким інструментом для **Draft-07**:  
 
 - Node.js → [AJV](https://ajv.js.org/)  
 - Python → [jsonschema](https://github.com/python-jsonschema/jsonschema)  

@@ -37,8 +37,8 @@ sidebar_position: 4
    - Викликає `execute` та `onError` для обробників.  
 
 6. **Execution context**  
-   - Формує `params` як input з контракту та `context` для викликів у `protocol.js`.  
-   - Додає `context.headers`, `context.adapters`, службові поля (наприклад, `error`).  
+   - Формує `context.params` як input з контракту та `context` для викликів у `protocol.js`.  
+   - Додає `context.headers`, `context.ports`, службові поля (наприклад, `error`).  
 
 ---
 
