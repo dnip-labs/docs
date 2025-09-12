@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.8.1">
 <title data-rh="true">Огляд архітектури | DNIP</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://dnip-labs.github.io/docs/uk/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://dnip-labs.github.io/docs/uk/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://dnip-labs.github.io/docs/uk/architecture/architecture"><meta data-rh="true" property="og:locale" content="uk"><meta data-rh="true" property="og:locale:alternate" content="en"><meta data-rh="true" name="docusaurus_locale" content="uk"><meta data-rh="true" name="docsearch:language" content="uk"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Огляд архітектури | DNIP"><meta data-rh="true" name="description" content="Див. також Платформа та Контракти"><meta data-rh="true" property="og:description" content="Див. також Платформа та Контракти"><link data-rh="true" rel="icon" href="/docs/uk/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://dnip-labs.github.io/docs/uk/architecture/architecture"><link data-rh="true" rel="alternate" href="https://dnip-labs.github.io/docs/architecture/architecture" hreflang="en"><link data-rh="true" rel="alternate" href="https://dnip-labs.github.io/docs/uk/architecture/architecture" hreflang="uk"><link data-rh="true" rel="alternate" href="https://dnip-labs.github.io/docs/architecture/architecture" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"🏛️ Архітектура","item":"https://dnip-labs.github.io/docs/uk/category/️-архітектура"},{"@type":"ListItem","position":2,"name":"Огляд архітектури","item":"https://dnip-labs.github.io/docs/uk/architecture/architecture"}]}</script><link rel="stylesheet" href="/docs/uk/assets/css/styles.8ff53da7.css">
-<script src="/docs/uk/assets/js/runtime~main.b46a69a8.js" defer="defer"></script>
-<script src="/docs/uk/assets/js/main.c7d18021.js" defer="defer"></script>
+<script src="/docs/uk/assets/js/runtime~main.bce8d0ca.js" defer="defer"></script>
+<script src="/docs/uk/assets/js/main.df91cd95.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -26,7 +26,6 @@
 <li><code>services</code> → опис дій (actions) та їхніх контрактів.</li>
 <li><code>gateway</code> → мапінг HTTP маршрутів на дії та обробку Events на дії.</li>
 <li><code>cron</code> → періодичні завдання.</li>
-<li><code>processors</code> → відтерміновані завдання.</li>
 </ul>
 <hr>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="2-contractsjson">2. <strong>contracts/*.json</strong><a href="#2-contractsjson" class="hash-link" aria-label="Пряме посилання на 2-contractsjson" title="Пряме посилання на 2-contractsjson">​</a></h3>
@@ -44,7 +43,6 @@
 <ul>
 <li>підключення до баз даних, кешів, сторонніх API;</li>
 <li>параметри gateway (host/port, TLS, CORS);</li>
-<li>налаштування черг (processors).</li>
 </ul>
 </li>
 <li>Використовується платформою для конфігурації артефактів.</li>
@@ -62,7 +60,7 @@
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="5-protocoljs">5. <strong>protocol.js</strong><a href="#5-protocoljs" class="hash-link" aria-label="Пряме посилання на 5-protocoljs" title="Пряме посилання на 5-protocoljs">​</a></h3>
 <ul>
 <li>Це <strong>імплементація</strong>: бізнес‑логіка, яка виконується Платформою.</li>
-<li>Містить функції для <code>domain</code>, cronjobs, processors.</li>
+<li>Містить функції для <code>domain</code>, cronjobs</li>
 <li>Саме тут описано <strong>як</strong> виконуються дії, визначені у <code>protocol.json</code>.</li>
 <li>Використовується підхід:</li>
 </ul>

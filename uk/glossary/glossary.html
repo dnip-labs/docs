@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.8.1">
 <title data-rh="true">Глосарій | DNIP</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://dnip-labs.github.io/docs/uk/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://dnip-labs.github.io/docs/uk/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://dnip-labs.github.io/docs/uk/glossary/glossary"><meta data-rh="true" property="og:locale" content="uk"><meta data-rh="true" property="og:locale:alternate" content="en"><meta data-rh="true" name="docusaurus_locale" content="uk"><meta data-rh="true" name="docsearch:language" content="uk"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Глосарій | DNIP"><meta data-rh="true" name="description" content="Основні терміни"><meta data-rh="true" property="og:description" content="Основні терміни"><link data-rh="true" rel="icon" href="/docs/uk/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://dnip-labs.github.io/docs/uk/glossary/glossary"><link data-rh="true" rel="alternate" href="https://dnip-labs.github.io/docs/glossary/glossary" hreflang="en"><link data-rh="true" rel="alternate" href="https://dnip-labs.github.io/docs/uk/glossary/glossary" hreflang="uk"><link data-rh="true" rel="alternate" href="https://dnip-labs.github.io/docs/glossary/glossary" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"📖 Глосарій","item":"https://dnip-labs.github.io/docs/uk/category/-глосарій"},{"@type":"ListItem","position":2,"name":"Глосарій","item":"https://dnip-labs.github.io/docs/uk/glossary/glossary"}]}</script><link rel="stylesheet" href="/docs/uk/assets/css/styles.8ff53da7.css">
-<script src="/docs/uk/assets/js/runtime~main.b46a69a8.js" defer="defer"></script>
-<script src="/docs/uk/assets/js/main.c7d18021.js" defer="defer"></script>
+<script src="/docs/uk/assets/js/runtime~main.bce8d0ca.js" defer="defer"></script>
+<script src="/docs/uk/assets/js/main.df91cd95.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -21,7 +21,7 @@
 <p><a href="https://uk.wikipedia.org/wiki/%D0%9A%D0%BE%D0%BC%D1%83%D0%BD%D1%96%D0%BA%D0%B0%D1%86%D1%96%D0%B9%D0%BD%D0%B8%D0%B9_%D0%BF%D1%80%D0%BE%D1%82%D0%BE%D0%BA%D0%BE%D0%BB" target="_blank" rel="noopener noreferrer"><strong>Protocol (Протокол)</strong></a> — стандарт DNIP, що описує, як вузли взаємодіють між собою.</p>
 </li>
 <li>
-<p><strong>protocol.json</strong> — декларативний опис сервісів, дій, gateway, cronjobs та processors вузла. Це ядро вузла.</p>
+<p><strong>protocol.json</strong> — декларативний опис сервісів, дій, gateway та cronjobs вузла. Це ядро вузла.</p>
 </li>
 <li>
 <p><strong>Contract (Контракт)</strong> — файл <strong>contracts/*.json</strong> у форматі <strong>JSON Schema draft-07</strong>, що описує формат вхідних та вихідних даних (<code>headers</code>, <code>input</code>, <code>output</code>).<br>
@@ -47,13 +47,10 @@
 <p><a href="https://uk.wikipedia.org/wiki/Cron" target="_blank" rel="noopener noreferrer"><strong>Cronjobs</strong></a> — розділ <code>cron</code> у <code>protocol.json</code>. Використовується для опису періодичних завдань, що виконуються реалізацією вузла. Не мають контрактів.</p>
 </li>
 <li>
-<p><a href="https://en.wikipedia.org/wiki/Job_queue" target="_blank" rel="noopener noreferrer"><strong>Processors</strong></a> — розділ <code>processors</code> у <code>protocol.json</code>. Черги завдань, які обробляються вузлом (аналог до BullMQ). Можуть мати <code>execute</code> та <code>onError</code>.</p>
-</li>
-<li>
 <p><strong>Config.js</strong> — конфігурація вузла (бази даних, кеші, зовнішні API, параметри черг тощо).</p>
 </li>
 <li>
-<p><strong>protocol.js</strong> — реалізація логіки вузла: функції для <code>domain</code>, які викликаються через <code>execute</code>, <code>onError</code>, <code>onComplete</code>, а також реалізація cronjobs та processors.</p>
+<p><strong>protocol.js</strong> — реалізація логіки вузла: функції для <code>domain</code>, які викликаються через <code>execute</code>, <code>onError</code>, <code>onComplete</code>, а також реалізація cronjobs.</p>
 </li>
 </ul>
 <hr>
