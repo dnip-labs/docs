@@ -131,57 +131,6 @@ export default function ProtocolImplementation() {
 ```
 
 ---
-
-## Processor
-
-### config.js
-
-```js
-export default {
-  processors: {
-    emailQueue: {
-      connection: { host: "localhost", port: 6379 },
-      concurrency: 5
-    }
-  }
-};
-```
-
-### protocol.json
-
-```json
-{
-  "processors": [
-    {
-      "queue": "emailQueue",
-      "execute": "domain.processors.sendEmail",
-      "onError": "domain.processors.onEmailError"
-    }
-  ]
-}
-```
-
-### protocol.js
-
-```js
-export default function ProtocolImplementation() {
-  return {
-    domain: {
-      processors: {
-        sendEmail: async (context) => {
-          const { to, body } = context.params;
-          console.log("Sending email to", to, "with body", body);
-          return { status: "sent" };
-        },
-        onEmailError: (context) => {
-          console.error("Email job failed:", context.error);
-        }
-      }
-    }
-  };
-}
-```
-
 ---
 
 ## Моноліт
@@ -275,13 +224,7 @@ export default function ProtocolImplementation() {
         "execute": "domain.jobs.cleanup"
       }
     ]
-  },
-  "processors": [
-    {
-      "queue": "emailQueue",
-      "execute": "domain.processors.sendEmail"
-    }
-  ]
+  }
 }
 ```
 
@@ -403,12 +346,6 @@ export default function ProtocolImplementation() {
         cleanup: async (context) => {
           console.log("Cleanup executed");
           return { ok: true };
-        }
-      },
-      processors: {
-        sendEmail: async (context) => {
-          console.log("Email sent to", context.params.to);
-          return { status: "sent" };
         }
       }
     }

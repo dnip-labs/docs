@@ -3,7 +3,7 @@ sidebar_position: 2
 ---
 
 # 🧩 Use Cases
-> Приклади використання див. також: [Gateway](execution/09-gateway.md), [Cron](execution/10-cron.md), [Processors](execution/11-processors.md)
+> Приклади використання див. також: [Gateway](execution/09-gateway.md), [Cron](execution/10-cron.md)
 
 ## Гнучкість DNIP
 

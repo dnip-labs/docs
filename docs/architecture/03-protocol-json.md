@@ -12,7 +12,6 @@ sidebar_position: 3
 - які в них **дії** (actions);  
 - як працює **gateway** (HTTP та Events);  
 - які заплановані **cron jobs**;  
-- які **processors** виконує вузол.  
 
 ---
 
@@ -66,26 +65,6 @@ Gateway складається з двох частин:
 
 ---
 
-### 4. processors
-**Processors** — це **відкладені завдання (delayed jobs)**, які описуються у `protocol.json`.  
-
-Вони відрізняються від `transports`:  
-- `transports` визначають спосіб взаємодії вузлів у мережі (AMQP, Kafka, NATS тощо).  
-- `processors` — це внутрішні асинхронні задачі вузла, які виконуються у чергах платформи (наприклад, через BullMQ).  
-
-Характеристики:  
-- запускаються після постановки у чергу;  
-- завжди мають `input`;  
-- можуть мати `output`, яке використовується у `onComplete`, але не повертається клієнту напряму.  
-
-У декларації описується лише логіка:  
-- `contract` — опис input/output (JSON Schema).  
-- `execute` або `alias`.  
-- `onError` — виконується при помилці.  
-- `onComplete` — виконується після завершення.  
-
----
-
 ## Мінімальний приклад
 
 ```json
@@ -120,14 +99,6 @@ Gateway складається з двох частин:
         "pattern": "0 0 * * *",,
         "execute": "domain.jobs.cleanup"
       }
-    }
-  },
-  "processors": {
-    "email.send": {
-      "contract": "contracts/send-email.json",
-      "execute": "domain.processors.emailSend",
-      "onError": "domain.processors.onErrorHandler",
-      "onComplete": "domain.processors.onCompleteHandler"
     }
   }
 }
@@ -176,12 +147,6 @@ Gateway складається з двох частин:
         "pattern": "0 3 * * *",,
         "execute": "domain.jobs.nightly"
       }
-    }
-  },
-  "processors": {
-    "report.generate": {
-      "contract": "contracts/report.json",
-      "execute": "domain.processors.reportGenerate"
     }
   }
 }

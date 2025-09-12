@@ -32,11 +32,7 @@ sidebar_position: 4
 4. **Cronjobs**  
    - Запускає періодичні завдання згідно з декларацією у `protocol.json`.  
 
-5. **Processors**  
-   - Працює з чергами завдань.  
-   - Викликає `execute` та `onError` для обробників.  
-
-6. **Execution context**  
+5. **Execution context**  
    - **Увесь `context` формується Платформою**: після валідації `input` створюється `context.params`, а також додаються `context.meta.headers`, `context.ports` та службові поля (наприклад, `error`).
   - `call(serviceAction, params, context)` — метод для виклику внутрішніх або зовнішніх дій сервісів.  
 
@@ -55,7 +51,7 @@ sidebar_position: 4
   - читає ці файли,  
   - перевіряє декларацію,  
   - підключає transports,  
-  - виконує gateway, events, cron та processors,  
+  - виконує gateway, events та cronjobs, 
   - викликає логіку з `protocol.js`.  
 
 ---
