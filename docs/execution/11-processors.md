@@ -3,6 +3,8 @@ sidebar_position: 11
 ---
 
 # Processors
+> Декларація — у `protocol.json`, конфігурація — у `config.js`, імплементація — у `protocol.js` (див. [Архітектура](../architecture/02-architecture.md)).
+
 > Processors описуються у [protocol.json](architecture/03-protocol-json.md)
 
 ## Що таке processors

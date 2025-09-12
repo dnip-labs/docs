@@ -3,6 +3,8 @@ sidebar_position: 10
 ---
 
 # Cron
+> Декларація — у `protocol.json`, конфігурація — у `config.js`, імплементація — у `protocol.js` (див. [Архітектура](../architecture/02-architecture.md)).
+
 > Cronjobs описуються декларативно у [protocol.json](architecture/03-protocol-json.md)
 
 ## Що таке Cron у DNIP

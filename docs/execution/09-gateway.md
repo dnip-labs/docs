@@ -3,6 +3,8 @@ sidebar_position: 9
 ---
 
 # Gateway
+> Декларація — у `protocol.json`, конфігурація — у `config.js`, імплементація — у `protocol.js` (див. [Архітектура](../architecture/02-architecture.md)).
+
 > Gateway описується декларативно у [protocol.json](architecture/03-protocol-json.md)
 
 ## Що таке Gateway
