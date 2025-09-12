@@ -37,7 +37,8 @@ sidebar_position: 4
    - Викликає `execute` та `onError` для обробників.  
 
 6. **Execution context**  
-   - **Увесь `context` формується Платформою**: після валідації `input` створюється `context.params`, а також додаються `context.meta.headers`, `context.ports` та службові поля (наприклад, `error`).  
+   - **Увесь `context` формується Платформою**: після валідації `input` створюється `context.params`, а також додаються `context.meta.headers`, `context.ports` та службові поля (наприклад, `error`).
+  - `call(serviceAction, params, context)` — метод для виклику внутрішніх або зовнішніх дій сервісів.  
 
 ---
 

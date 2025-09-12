@@ -415,3 +415,23 @@ export default function ProtocolImplementation() {
   };
 }
 ```
+
+---
+
+## Виклик іншого сервісу
+
+```js
+export default function ProtocolImplementation() {
+  return {
+    domain: {
+      orders: {
+        getUserOrders: async (context) => {
+          // Виклик іншого сервісу через call
+          const user = await context.call('user.v1.getProfile', { id: context.params.userId }, context);
+          return { orders: [], user };
+        }
+      }
+    }
+  };
+}
+```
