@@ -112,13 +112,12 @@ Gateway складається з двох частин:
   },
   "cron": {
     "timezone": "Europe/Berlin",
-    "jobs": [
-      {
-        "name": "cleanup",
-        "pattern": "0 0 * * *",
+    "jobs": {
+      "cleanup": {
+        "pattern": "0 0 * * *",,
         "execute": "domain.jobs.cleanup"
       }
-    ]
+    }
   },
   "processors": {
     "email.send": {
@@ -169,13 +168,12 @@ Gateway складається з двох частин:
   },
   "cron": {
     "timezone": "Europe/Kyiv",
-    "jobs": [
-      {
-        "name": "nightlyJob",
-        "pattern": "0 3 * * *",
+    "jobs": {
+      "nightlyJob": {
+        "pattern": "0 3 * * *",,
         "execute": "domain.jobs.nightly"
       }
-    ]
+    }
   },
   "processors": {
     "report.generate": {

@@ -18,35 +18,31 @@ sidebar_position: 10
 {
   "cron": {
     "timezone": "Europe/Berlin",
-    "jobs": [
-      {
-        "name": "cleanup",
+    "jobs": {
+      "cleanup": {
         "pattern": "0 0 * * *",
         "execute": "domain.jobs.cleanup",
         "onError": "domain.jobs.onErrorHandler"
       },
-      {
-        "name": "report",
+      "report": {
         "pattern": "*/15 * * * *",
         "execute": "domain.jobs.report",
         "onError": "domain.jobs.onErrorHandler",
         "onComplete": "domain.jobs.notify"
       }
-    ]
-  }
+    }
+  }  
 }
 ```
 
 У цьому прикладі:  
 - `timezone` — таймзона, яка має збігатися з патерном та відповідати стандарту **IANA Time Zone Database** (наприклад, `Europe/Berlin`).  
-- `jobs[]` — масив завдань із параметрами:  
-  - `name` — унікальне ім’я завдання.  
+- `jobs` — об’єкт, де ключами є унікальні імена завдань:  
   - `pattern` — cron-вираз.  
   - `execute` — функція у домені.
   - `onError` — опціональний обробник помилок.  
   - `onComplete` — опційний хук після виконання.  
-  - `disabled` — можна вимкнути завдання без видалення.  
-
+  
 ---
 
 ## Як це відображається в імплементації
