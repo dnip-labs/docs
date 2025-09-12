@@ -18,6 +18,12 @@ sidebar_position: 3
 
 ## Структура
 
+### dependencies
+- `dependencies` — масив рядків з назвами зовнішніх сервісів, від яких залежить вузол (**Node**).
+- Кожен елемент повинен мати формат **`${serviceName}.v${serviceVersion}`** (наприклад: `accounts.v1`, `billing.v2`).
+- Це посилання на інші Node у мережі DNIP, які описані власними `protocol.json`.
+- Поле **обов’язкове**: навіть якщо залежностей немає, потрібно вказати `"dependencies": []`.
+
 ### 1. services
 - `version` — номер версії сервісу.  
 - `transports` — перелік транспортів (`amqp`, `kafka`, `nats`, `mqtt`, `redis`).  
@@ -81,6 +87,7 @@ Gateway складається з двох частин:
 
 ```json
 {
+  "dependencies": [],
   "services": {
     "system": {
       "version": 1,
@@ -130,6 +137,7 @@ Gateway складається з двох частин:
 
 ```json
 {
+  "dependencies": [],
   "services": {
     "a": {
       "version": 1,

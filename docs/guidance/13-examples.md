@@ -21,6 +21,7 @@ sidebar_position: 13
 
 ```json
 {
+  "dependencies": [],
   "services": {
     "system": {
       "version": 1,
@@ -205,6 +206,7 @@ export default function ProtocolImplementation() {
 
 ```json
 {
+  "dependencies": [],
   "services": {
     "system": {
       "version": 1,

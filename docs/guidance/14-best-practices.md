@@ -46,6 +46,7 @@ Kafka, AMQP та інші брокери повідомлень описують
 
 ```json
 {
+  "dependencies": [],
   "services": {
     "user": {
       "version": 1,

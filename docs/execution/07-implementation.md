@@ -18,6 +18,7 @@ DNIP не обмежує вибір мови програмування чи с�
 
 ```json
 {
+  "dependencies": [],
   "services": {
     "user": {
       "version": 1,
