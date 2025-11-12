@@ -2,7 +2,7 @@
 sidebar_position: 13
 ---
 
-# Приклади
+# JavaScript
 
 ## Мінімальний вузол
 
@@ -21,9 +21,10 @@ sidebar_position: 13
 
 ```json
 {
-  "dependencies": [],
-  "services": {
-    "system": {
+  "dependencies": {},
+  "services": [
+    {
+      "name": "system",
       "version": 1,
       "transports": ["amqp"],
       "actions": {
@@ -33,7 +34,7 @@ sidebar_position: 13
         }
       }
     }
-  },
+  ],
   "gateway": {
     "http": {
       "routes": {
@@ -65,7 +66,8 @@ sidebar_position: 13
         "echo": { "type": "string" }
       }
     }
-  }
+  },
+  "required": ["input", "output"]
 }
 ```
 
@@ -87,52 +89,6 @@ export default function ProtocolImplementation() {
 
 ---
 
-## Cronjobs
-
-### protocol.json
-
-```json
-{
-  "cron": {
-    "timezone": "Europe/Kyiv",
-    "jobs": [
-      {
-        "name": "cleanup",
-        "pattern": "0 0 * * *",
-        "execute": "domain.jobs.cleanup",
-        "onError": "domain.jobs.onErrorHandler"
-      }
-    ]
-  }
-}
-```
-
-### protocol.js
-
-```js
-export default function ProtocolImplementation() {
-  return {
-    domain: {
-      jobs: {
-        cleanup: async (context) => {
-          const db = context.ports.postgres;
-          if (db && typeof db.cleanupInactiveUsers === "function") {
-            await db.cleanupInactiveUsers();
-          }
-          return { ok: true };
-        },
-        onErrorHandler: async (context) => {
-          console.error("Cron job error:", context.error);
-        }
-      }
-    }
-  };
-}
-```
-
----
----
-
 ## Моноліт
 
 У моноліті кілька доменів реалізуються в одній Node  
@@ -143,9 +99,9 @@ export default function ProtocolImplementation() {
 .
 ├── contracts/
 │   ├── ping.json
-│   ├── createUser.json
-│   ├── createOrder.json
-│   └── userCreatedEvent.json
+│   ├── create_user.json
+│   ├── create_order.json
+│   └── user_created_event.json
 ├── protocol.json
 ├── config.js
 └── protocol.js
@@ -155,9 +111,10 @@ export default function ProtocolImplementation() {
 
 ```json
 {
-  "dependencies": [],
-  "services": {
-    "system": {
+  "dependencies": {},
+  "services": [
+    {
+      "name": "system",
       "version": 1,
       "transports": ["amqp"],
       "actions": {
@@ -167,50 +124,52 @@ export default function ProtocolImplementation() {
         }
       }
     },
-    "users": {
+    {
+      "name": "users",
       "version": 1,
       "transports": ["amqp"],
       "actions": {
         "createUser": {
-          "contract": "contracts/createUser.json",
-          "execute": "domain.users.createUser"
+          "contract": "contracts/create_user.json",
+          "execute": "domain.users.create_user"
         },
         "onUserCreated": {
-          "contract": "contracts/userCreatedEvent.json",
-          "execute": "domain.users.onUserCreated"
+          "contract": "contracts/user_created_event.json",
+          "execute": "domain.users.on_user_created"
         }
       }
     },
-    "orders": {
+    {
+      "name": "orders",
       "version": 1,
       "transports": ["amqp"],
       "actions": {
         "createOrder": {
-          "contract": "contracts/createOrder.json",
-          "execute": "domain.orders.createOrder"
+          "contract": "contracts/create_order.json",
+          "execute": "domain.orders.create_order"
         }
       }
     }
-  },
+  ],
   "gateway": {
     "http": {
       "routes": {
         "GET /ping": { "alias": "system.v1.ping" },
         "POST /users": {
-          "contract": "contracts/createUser.json",
-          "execute": "domain.users.createUser"
+          "contract": "contracts/create_user.json",
+          "execute": "domain.users.create_user"
         },
         "POST /orders": {
-          "contract": "contracts/createOrder.json",
-          "execute": "domain.orders.createOrder"
+          "contract": "contracts/create_order.json",
+          "execute": "domain.orders.create_order"
         }
       }
     },
     "events": {
       "routes": {
         "user.created": {
-          "contract": "contracts/userCreatedEvent.json",
-          "execute": "domain.users.onUserCreated"
+          "contract": "contracts/user_created_event.json",
+          "execute": "domain.users.on_user_created"
         }
       }
     }
@@ -224,18 +183,19 @@ export default function ProtocolImplementation() {
         "execute": "domain.jobs.cleanup"
       }
     ]
-  }
+  },
+  "required": ["input", "output"]
 }
 ```
 
 ### Приклади контрактів
 
-#### contracts/createUser.json
+#### contracts/create_user.json
 
 ```json
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
-  "$id": "contracts/createUser.json",
+  "$id": "contracts/create_user.json",
   "type": "object",
   "properties": {
     "input": {
@@ -255,16 +215,17 @@ export default function ProtocolImplementation() {
       },
       "required": ["id", "name", "email"]
     }
-  }
+  },
+  "required": ["input", "output"]
 }
 ```
 
-#### contracts/createOrder.json
+#### contracts/create_order.json
 
 ```json
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
-  "$id": "contracts/createOrder.json",
+  "$id": "contracts/create_order.json",
   "type": "object",
   "properties": {
     "input": {
@@ -283,16 +244,17 @@ export default function ProtocolImplementation() {
       },
       "required": ["orderId", "status"]
     }
-  }
+  },
+  "required": ["input", "output"]
 }
 ```
 
-#### contracts/userCreatedEvent.json
+#### contracts/user_created_event.json
 
 ```json
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
-  "$id": "contracts/userCreatedEvent.json",
+  "$id": "contracts/user_created_event.json",
   "type": "object",
   "properties": {
     "input": {
@@ -311,7 +273,8 @@ export default function ProtocolImplementation() {
       },
       "required": ["ok"]
     }
-  }
+  },
+  "required": ["input", "output"]
 }
 ```
 
@@ -346,26 +309,6 @@ export default function ProtocolImplementation() {
         cleanup: async (context) => {
           console.log("Cleanup executed");
           return { ok: true };
-        }
-      }
-    }
-  };
-}
-```
-
----
-
-## Виклик іншого сервісу
-
-```js
-export default function ProtocolImplementation() {
-  return {
-    domain: {
-      orders: {
-        getUserOrders: async (context) => {
-          // Виклик іншого сервісу через call
-          const user = await context.call('user.v1.getProfile', { id: context.params.userId }, context);
-          return { orders: [], user };
         }
       }
     }

@@ -2,14 +2,11 @@
 sidebar_position: 9
 ---
 
-# Gateway
-> Декларація — у `protocol.json`, конфігурація — у `config.js`, імплементація — у `protocol.js` (див. [Архітектура](../architecture/02-architecture.md)).
-
-> Gateway описується декларативно у [protocol.json](architecture/03-protocol-json.md)
+# 🌐 Gateway
 
 ## Що таке Gateway
 
-**Gateway** — це шар, який мапить зовнішні інтерфейси (HTTP, Events) на дії вузла.  
+**Gateway** — це шар, який мапить зовнішні інтерфейси (HTTP, Events та інші) на дії вузла.  
 Усі маршрути та події описуються декларативно у **protocol.json**.  
 
 ---
@@ -29,7 +26,7 @@ sidebar_position: 9
           "alias": "user.v1.getProfile"
         },
         "POST /user/delete": {
-          "contract": "contracts/delete-user.json",
+          "contract": "contracts/delete_user.json",
           "execute": "domain.user.delete"
         },
         "# PUT /draft": {
@@ -62,7 +59,7 @@ sidebar_position: 9
         "alias": "user.v1.createdHandler"
       },
       "order.*": {
-        "contract": "contracts/order-event.json",
+        "contract": "contracts/order_event.json",
         "execute": "domain.orders.handleEvent"
       }
     }
@@ -95,4 +92,4 @@ sidebar_position: 9
 ## Референс
 
 Офіційна схема gateway:  
-див. [protocol.json](https://github.com/dnip-labs/dnip/blob/master/json-schema/protocol.json#L50)
+див. [GitHub](https://github.com/open-dnip/sdk-nodejs/blob/master/json-schema/protocol.json#L63)

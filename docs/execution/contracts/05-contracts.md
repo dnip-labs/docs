@@ -3,7 +3,6 @@ sidebar_position: 5
 ---
 
 # Контракти
-> Як перевіряються контракти: див. [Валідація](contracts/08-validation.md)
 
 ## Що таке контракт
 
@@ -11,19 +10,29 @@ sidebar_position: 5
 Він визначає:  
 - **headers** — заголовки запиту/повідомлення (HTTP, AMQP, Kafka…).  
 - **input** — вхідні дані.  
-- **output** — вихідні дані.  
+- **output** — вихідні дані.
 
-Контракт описується у форматі [**JSON Schema draft-07**](https://json-schema.org/draft-07/draft-handrews-json-schema-01).  
+*Контракт описується у форматі [**JSON Schema draft-07**](https://json-schema.org/draft-07/draft-handrews-json-schema-01).*
+
+*Можуть бути додані ще кастомні поля по стандарту [**JSON Schema**](https://json-schema.org/draft-07/draft-handrews-json-schema-01) починаючи з префіксу `x-`*
 
 ---
 
 ## Структура контракту
 
-- `$id` — унікальний ідентифікатор контракту.  
+- `$id` (необовязкове) — унікальний ідентифікатор контракту.  
 - `$schema` — завжди `https://json-schema.org/draft-07/schema#`.  
+- `x-group` (необовязкове) — до яких груп належить контракт (наприклад: `['Users']`)
+- `x-meta` (необовязкове) — додаткові метадані (наприклад, `status_code`).  
 - `properties` — опис об’єкта з полями `headers`, `input`, `output`.  
 - `required` — зазвичай включає `input` та `output` (та `headers` за потреби).
-- `x-meta` — додаткові метадані (наприклад, `status_code`).  
+
+---
+- `input.properties` може бути `x-in` — вказує звідки було взято дані. Доступні значення:
+  - `path` — як URL param `/some-url/:bar` → `/some-url/1` (у цьому випдаку `:bar`)
+  - `query` — як query param `/some-url?bar=1` (у цьому випдаку `bar`)
+
+`x-in` дає можливість **Платформі** зрозуміти як генерувати документацію OpenAPI та інших стандартів у подальшому, а також як формувати `context.params`
 
 ---
 
@@ -31,41 +40,13 @@ sidebar_position: 5
 
 ```json
 {
+  "$id": "contracts/get_user.json",
   "$schema": "https://json-schema.org/draft-07/schema#",
-  "$id": "contracts/ping.json",
-  "type": "object",
-  "properties": {
-    "input": {
-      "type": "object",
-      "properties": {
-        "message": { "type": "string" }
-      },
-      "required": ["message"]
-    },
-    "output": {
-      "type": "object",
-      "properties": {
-        "pong": { "type": "boolean" }
-      },
-      "required": ["pong"]
-    }
-  },
-  "required": ["input", "output"]
-}
-```
-
----
-
-## Приклад з `x-meta`
-
-```json
-{
-  "$schema": "https://json-schema.org/draft-07/schema#",
-  "$id": "contracts/get-user.json",
-  "type": "object",
+  "x-group": ["Users"],
   "x-meta": {
     "status_code": 200
   },
+  "type": "object",
   "properties": {
     "headers": {
       "type": "object",
@@ -77,7 +58,11 @@ sidebar_position: 5
     "input": {
       "type": "object",
       "properties": {
-        "userId": { "type": "string", "pattern": "^[0-9a-fA-F]{24}$" }
+        "user_id": {
+          "x-in": "query",
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{24}$"
+        }
       },
       "required": ["userId"]
     },
@@ -95,9 +80,11 @@ sidebar_position: 5
 ```
 
 У цьому прикладі:  
+- `x-group` — декларує цей контракт у групі `Users`
 - `x-meta.status_code = 200` → підказка для HTTP-відповіді.  
 - `headers` вимагає токен авторизації.  
 - `input` — ідентифікатор користувача.  
+- `input.properties.user_id.x-in` — вказує що дані було взято з query запиту.
 - `output` — об’єкт із даними користувача.  
 
 ---
@@ -111,12 +98,9 @@ sidebar_position: 5
 - Go → [gojsonschema](https://github.com/xeipuuv/gojsonschema)  
 - Rust → [jsonschema crate](https://docs.rs/jsonschema/)  
 
----
+> Як перевіряються контракти: див. розділ [Валідація](contracts/08-validation.md)
 
-## Референс
-
-Офіційна схема контракту:  
-[contract.json](https://github.com/dnip-labs/dnip/tree/master/json-schema/contract.json)
+> Офіційна схема контракту: [на GitHub](https://github.com/open-dnip/sdk-nodejs/blob/master/json-schema/contract.json)
 
 ---
 

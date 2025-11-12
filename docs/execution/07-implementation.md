@@ -2,13 +2,23 @@
 sidebar_position: 7
 ---
 
-# Імплементація
+# 🚀 Імплементація
 
 ## Що таке імплементація
 
 **Імплементація** — це код, який виконує логіку вузла.  
 DNIP не обмежує вибір мови програмування чи структури коду.  
 Розробник може реалізувати логіку на **будь-якому стеку**: JavaScript, Python, Go, Rust тощо.  
+
+Це повністью структуровано-гнучкий обʼєкт посилань на функції який може мати будь які шляхи, до прикладу:
+- `domain.system.ping`
+- `useCases.ping`
+- `processors.documents.abc.doJob`
+
+А у протоколі треба вказувати правильний шлях до цих функцій:
+- `"execute": "domain.system.ping"`
+- `"execute": "useCases.ping"`
+- `"execute": "processors.documents.abc.doJob"`
 
 ---
 
@@ -18,19 +28,20 @@ DNIP не обмежує вибір мови програмування чи с�
 
 ```json
 {
-  "dependencies": [],
-  "services": {
-    "user": {
+  "dependencies": {},
+  "services": [
+    {
+      "name": "user",
       "version": 1,
       "transports": ["amqp"],
       "actions": {
         "getProfile": {
-          "contract": "contracts/get-profile.json",
-          "execute": "domain.user.getProfile"
+          "contract": "contracts/get_profile.json",
+          "execute": "useCases.user.getProfile"
         }
       }
     }
-  }
+  ]
 }
 ```
 
@@ -38,21 +49,21 @@ DNIP не обмежує вибір мови програмування чи с�
 
 ```js
 export default {
-  gateway: { http: { host: "0.0.0.0", port: 8080 } },
-  services: { transports: { default: ["amqp"] } },
+  domain: { feature_flags: { beta_mode: true } }
+  services: { transports: { default: ['amqp'] } },
+  gateway: { http: { ip: '0.0.0.0', port: 8080 } },
   adapters: {
-    postgres: { url: "postgres://..." },
-    redis: { url: "redis://localhost:6379" }
+    postgres: { url: 'postgres://...' },
+    redis: { url: 'redis://localhost:6379' }
   },
-  domain: { featureFlags: { betaMode: true } }
 };
 ```
 
 У файлі **adapters.js** ми створюємо реальні клієнти на основі `config.adapters`:  
 
 ```js
-import { Client } from "pg";
-import Redis from "ioredis";
+import { Client } from 'pg';
+import Redis from 'ioredis';
 
 export function createAdapters(config) {
   const pg = new Client({ connectionString: config.adapters.postgres.url });
@@ -70,7 +81,7 @@ export function createAdapters(config) {
 ```js
 export default function ProtocolImplementation() {
   return {
-    domain: {
+    useCases: {
       user: {
         getProfile: async (context) => {
           const db = context.ports.postgres;
@@ -85,34 +96,11 @@ export default function ProtocolImplementation() {
 
 ---
 
-## Основні елементи імплементації
-
-1. **mw (middlewares)**  
-   - Набір функцій, які можуть використовуватися у gateway.  
-   - Наприклад, перевірка авторизації чи заголовків.  
-
-2. **domain**  
-   - Логіка дій (actions), cron-методи, утиліти.  
-   - Шлях до функції повинен відповідати полю `execute` у `protocol.json`.  
-
-3. **adapters**  
-   - Ініціалізуються у файлі `adapters.js` на основі `config.adapters`.  
-   - Потрапляють у `context.ports` і доступні для дій вузла.  
-
----
-
 ## Контекст виконання
 
 Під час виклику будь-якої дії DNIP передає у функцію **context**:  
 - `context.domain` → значення з `config.domain`.  
-- `context.ports` → готові клієнти з `adapters.js`.  
+- `context.ports` → готові клієнти з `adapters.js`.
 - `context.meta.headers` → заголовки запиту згідно контракту.  
 
-Функція повинна повертати результат, який відповідає **contract.output**.  
-
----
-
-## Референс
-
-Імплементація не має окремої схеми у DNIP.  
-Це **вільний код**, який повинен відповідати опису з `protocol.json`, контрактам і конфігурації.  
+Функція повинна повертати результат, який відповідає **contract.output** інакше, **Платформа** за стандартом DNIP має створити помилку "Bad Response".

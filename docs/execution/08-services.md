@@ -2,7 +2,7 @@
 sidebar_position: 8
 ---
 
-# Services
+# 🔧 Services
 > Services описуються декларативно у [protocol.json](../architecture/03-protocol-json.md)
 
 ## Що таке Services
@@ -11,7 +11,7 @@ sidebar_position: 8
 Він описує набір сервісів вузла, їхню версію, транспорти та дії (actions).  
 Сервіси є головними точками входу для виконання бізнес-логіки.  
 
-> Назва сервісу у мережі DNIP повинна бути **унікальною**.  
+> Назва сервісу у мережі за стандартом DNIP повинна бути **унікальною**.  
 > Разом з номером версії (`serviceName.vX`) вона формує глобальний ідентифікатор сервісу.
 
 ---
@@ -20,95 +20,36 @@ sidebar_position: 8
 
 ```json
 {
-  "services": {
-    "user": {
+  "services": [
+    {
+      "name": "user",
       "version": 1,
       "transports": ["amqp"],
       "actions": {
         "getProfile": {
-          "contract": "contracts/get-profile.json",
+          "contract": "contracts/get_profile.json",
           "execute": "domain.user.getProfile"
         }
       }
     }
-  }
+  ]
 }
 ```
 
-- `services` — об’єкт, ключами є імена сервісів.  
-- `version` — номер версії API сервісу.  
-- `transports` — перелік транспортів, які використовує сервіс (`amqp`, `kafka`, `nats`, `mqtt`, `redis`).  
-- `actions` — набір дій сервісу.  
+- `services` — масив де елементами є сервіси.
+  - `name` — назва сервісу. 
+  - `version` — номер версії сервісу.  
+  - `transports` — перелік транспортів, які використовує сервіс (`amqp`, `kafka`, `nats`, `mqtt`, `redis`).  
+  - `actions` — набір дій сервісу.  
+    - `назва action`
+      - `contract` — шлях до contract JSON (див. [$ref](https://json-schema.org/draft-07/draft-handrews-json-schema-01#rfc.section.8.3)).
+      - `execute` — шлях до методу в імплементації у `adapters.js`.
 
 ### Actions
 
 - Action — це кінцева точка виконання.  
 - Завжди має **`contract` + `execute`**.  
-- Alias у `actions` **не використовується** (alias застосовується тільки на рівні Gateway/Events).
-
----
-
-## Виклики через `context.call`
-
-Платформа додає у **`context`** метод **`.call`** для виклику внутрішніх або зовнішніх дій сервісів.
-
-```js
-await context.call('service.v1.action', params, context)
-```
-
-- `service.v1.action` — ім’я сервісу + версія + action.  
-- `params` — тільки **серіалізовані об’єкти** (наприклад, `{ userId: "123" }`).  
-- `context` — службовий контекст, який формується Платформою. Він містить:  
-  - `params` — вхідні дані поточного виклику;  
-  - `ports` — адаптери (Postgres, Redis тощо);  
-  - `meta` — службові поля (headers, correlationId тощо);  
-  - `trace`, `span` — дані трасування;  
-  - `call` — метод для виклику інших сервісів.  
-
-> Заборонено передавати у `params` та `context` несеріалізовані об’єкти, наприклад `ports`.  
-> У `params` та `context` дозволені лише серіалізовані структури (JSON-сумісні).
-
----
-
-## Приклад імплементації
-
-```json title="protocol.json"
-{
-  "services": {
-    "user": {
-      "version": 1,
-      "transports": ["amqp"],
-      "actions": {
-        "getProfile": {
-          "contract": "contracts/get-profile.json",
-          "execute": "domain.user.getProfile"
-        }
-      }
-    }
-  }
-}
-```
-
-```js title="protocol.js"
-export default function ProtocolImplementation() {
-  return {
-    domain: {
-      user: {
-        getProfile: async (context) => {
-          // Виклик іншого сервісу через call
-          const orders = await context.call(
-            'orders.v1.getUserOrders',
-            { userId: context.params.id },
-            context
-          );
-
-          return { profile: { id: context.params.id, orders } };
-        }
-      }
-    }
-  };
-}
-```
+- Alias у `actions` **не використовується**. `alias` застосовується тільки на рівні Gateway або розширень для того щоб перенаправити виклик на action сервісу.
 
 ---
 

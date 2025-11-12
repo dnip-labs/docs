@@ -40,68 +40,6 @@ Kafka, AMQP та інші брокери повідомлень описують
 
 ---
 
-## Як це виглядає у DNIP
-
-### protocol.json
-
-```json
-{
-  "dependencies": [],
-  "services": {
-    "user": {
-      "version": 1,
-      "transports": ["amqp"],
-      "actions": {
-        "getProfile": {
-          "contract": "contracts/get-profile.json",
-          "execute": "domain.user.getProfile"
-        }
-      }
-    }
-  }
-}
-```
-
-### protocol.js (Domain Layer)
-
-```js
-export default function Protocol() {
-  return {
-    domain: {
-      user: {
-        getProfile: async (context) => {
-          const { userRepo } = context.ports;
-          return await userRepo.findById(context.params.userId);
-        }
-      }
-    }
-  };
-}
-```
-
-### adapters.js (Adapters Layer)
-
-```js
-import { Client } from "pg";
-import Redis from "ioredis";
-
-export function createAdapters() {
-  const pg = new Client({ connectionString: process.env.PG_URL });
-  const redis = new Redis(process.env.REDIS_URL);
-
-  return {
-    userRepo: {
-      findById: async (id) => {
-        const cached = await redis.get(`user:${id}`);
-        if (cached) return JSON.parse(cached);
-        const res = await pg.query("SELECT * FROM users WHERE id = $1", [id]);
-        return res.rows[0];
-      }
-    }
-  };
-}
-```
-
 ### Платформа (Infrastructure + Presentation)
 
 - Читає `protocol.json`.  
@@ -119,15 +57,6 @@ export function createAdapters() {
 
 ---
 
-## Референс
-
-DNIP не нав'язує архітектурних підходів.  
-Проте Clean Architecture добре узгоджується з філософією DNIP.  
-
----
-
 ### Виклики сервісів
 
-- Використовуйте тільки `context.call` для виклику інших сервісів.  
-- Передавайте у `params` та `context` лише серіалізовані об’єкти (JSON-сумісні).  
-- Не передавайте у `params` та `context` адаптери (`ports`) чи інші несеріалізовані дані.  
+- Передавайте у `params` лише серіалізовані об’єкти (JSON-сумісні).  

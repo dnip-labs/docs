@@ -2,14 +2,11 @@
 sidebar_position: 10
 ---
 
-# Cron
-> Декларація — у `protocol.json`, конфігурація — у `config.js`, імплементація — у `protocol.js` (див. [Архітектура](../architecture/02-architecture.md)).
+# На прикладі Cron Jobs
 
 > Cronjobs описуються декларативно у [protocol.json](architecture/03-protocol-json.md)
 
-## Що таке Cron у DNIP
-
-**Cron** у DNIP — це декларативний опис періодичних завдань вузла.  
+**Cron** у DNIP — це **системне розширення** яке декларує опис періодичних завдань вузла.  
 Він визначається у **protocol.json** і виконується реалізацією вузла.  
 
 ---
